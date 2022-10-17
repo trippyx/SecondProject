@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-const port_number = 3000
+const port_number = process.env.port_number || 3000
 
 app.use(express.json());
 
