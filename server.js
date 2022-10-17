@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const port_number = process.env.port_number || 3000
+const dbFile = require('./database.js')
 
 app.use(express.json());
 
@@ -40,8 +41,8 @@ app.get('/getApi',(req,res)=>{
             response = {}
         } 
         const dictionary = {data:response,message:message,status:statusCode}
-        console.log("********Request Body*********",req.query)
-        console.log("********Sent Response*********",dictionary)
+        console.log("******** Request Body *********",req.query)
+        console.log("******** Sent Response *********",dictionary)
         res.send(dictionary)
     }catch(error){
         console.log('error',error)
@@ -50,6 +51,9 @@ app.get('/getApi',(req,res)=>{
 
 
 
-app.listen(port_number,()=>{
-    console.log("Server Started")
+app.listen(port_number,async ()=>{
+    const database = await dbFile.connectDatabase();
+    global.database = database
+    console.log("************ Server Started ***************")
+
 })
